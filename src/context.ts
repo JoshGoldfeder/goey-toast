@@ -110,8 +110,6 @@ export function getGooeyShowProgress() {
   return _showProgress
 }
 
-// Close button — rendered inside GooeyToast when enabled.
-// true or 'top-left' renders at top-left (default), 'top-right' renders at top-right.
 let _closeButton: boolean | 'top-left' | 'top-right' = false
 
 export function setGooeyCloseButton(value: boolean | 'top-left' | 'top-right') {
