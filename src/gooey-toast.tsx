@@ -153,7 +153,6 @@ function GooeyToastWrapper({
   bounce,
   showProgress,
   toastId,
-  activeId,
   onDismiss,
   onAutoClose,
 }: {
@@ -172,17 +171,16 @@ function GooeyToastWrapper({
   spring?: boolean
   bounce?: number
   showProgress?: boolean
-  toastId?: string | number
-  activeId: string | number
+  toastId: string | number
   onDismiss?: (id: string | number) => void
   onAutoClose?: (id: string | number) => void
 }) {
   // Register callbacks so _onToastDismissed can invoke them on unmount
   useEffect(() => {
     if (onDismiss || onAutoClose) {
-      _toastCallbacks.set(activeId, { onDismiss, onAutoClose })
+      _toastCallbacks.set(toastId, { onDismiss, onAutoClose })
     }
-  }, [activeId, onDismiss, onAutoClose])
+  }, [toastId, onDismiss, onAutoClose])
 
   const [title, setTitle] = useState(initialTitle)
   const [type, setType] = useState(initialType)
@@ -203,11 +201,11 @@ function GooeyToastWrapper({
       if (opts.action !== undefined) setAction(opts.action)
       if ('icon' in opts) setCurrentIcon(opts.icon ?? undefined)
     }
-    _toastUpdateListeners.set(activeId, handleUpdate)
+    _toastUpdateListeners.set(toastId, handleUpdate)
     return () => {
-      _toastUpdateListeners.delete(activeId)
+      _toastUpdateListeners.delete(toastId)
     }
-  }, [activeId])
+  }, [toastId])
 
   // Guarantee the queue slot is freed when this toast unmounts from Sonner's DOM.
   // Uses a mounted ref + delayed check to survive React StrictMode's dev-only
@@ -218,10 +216,10 @@ function GooeyToastWrapper({
     return () => {
       mountedRef.current = false
       setTimeout(() => {
-        if (!mountedRef.current) _onToastDismissed(activeId)
+        if (!mountedRef.current) _onToastDismissed(toastId)
       }, 100)
     }
-  }, [activeId])
+  }, [toastId])
 
   return (
     <ToastErrorBoundary>
@@ -337,6 +335,7 @@ function PromiseToastWrapper<T>({
         preset={data.preset}
         spring={data.spring}
         bounce={data.bounce}
+        toastId={toastId}
       />
     </ToastErrorBoundary>
   )
@@ -374,8 +373,7 @@ function createGooeyToast(
           spring={options?.spring}
           bounce={options?.bounce}
           showProgress={options?.showProgress}
-          toastId={hasExpandedContent ? toastId : undefined}
-          activeId={toastId}
+          toastId={toastId}
           onDismiss={options?.onDismiss}
           onAutoClose={options?.onAutoClose}
         />

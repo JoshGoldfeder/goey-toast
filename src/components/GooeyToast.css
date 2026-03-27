@@ -290,3 +290,65 @@
 .gooey-wrapper[data-theme="dark"] .gooey-progressError { background: #EF5350; }
 .gooey-wrapper[data-theme="dark"] .gooey-progressWarning { background: #FFB300; }
 .gooey-wrapper[data-theme="dark"] .gooey-progressInfo { background: #42A5F5; }
+
+/* ---------------------------------------------------------------------------
+   Close button — appears on hover, positioned top-left by default.
+   Use closeButton="top-right" on GooeyToaster for top-right placement.
+   --------------------------------------------------------------------------- */
+.gooey-closeButton {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background: #fff;
+  color: #999;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  pointer-events: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.gooey-closeButtonRight {
+  left: auto;
+  right: -6px;
+}
+.gooey-wrapper:hover .gooey-closeButton,
+.gooey-wrapper:focus-within .gooey-closeButton {
+  opacity: 1;
+  pointer-events: auto;
+}
+.gooey-closeButton:hover {
+  background: #f5f5f5;
+  color: #333;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.gooey-closeButton:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+.gooey-closeButton:active {
+  background: #eee;
+}
+.gooey-wrapper[data-theme="dark"] .gooey-closeButton {
+  background: #2a2a2a;
+  color: #888;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.gooey-wrapper[data-theme="dark"] .gooey-closeButton:hover {
+  background: #3a3a3a;
+  color: #ccc;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.gooey-wrapper[data-theme="dark"] .gooey-closeButton:active {
+  background: #444;
+}
